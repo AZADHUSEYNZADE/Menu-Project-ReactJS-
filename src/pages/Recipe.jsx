@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import "../styles/recipe.css";
 function Recipe() {
   let params = useParams();
   const [details, setDetails] = useState({});
@@ -16,24 +17,36 @@ function Recipe() {
   }, [params.name]);
 
   return (
-    <div>
+    <div className="mainRecipeDiv">
       <h2>{details.title}</h2>
-      <img src={details.image} alt="" />
-      <button onClick={() => setActiveTab("Instructions")}>Instructions</button>
-      <button onClick={() => setActiveTab("Ingredients")}>Ingredients</button>
-      {activetab === "Instructions" && (
-        <>
-          <h3>{details.summary}</h3>
-          <h3>{details.instructions}</h3>
-        </>
-      )}
-      {activetab === "Ingredients" && (
-        <ul>
-          {details.extendedIngredients.map((ingredients) => {
-            return <li>{ingredients.original}</li>;
-          })}
-        </ul>
-      )}
+      <div className="recipeSide">
+        <div>
+          <img className="recipeImg" src={details.image} alt="" />
+        </div>
+        <div>
+          <button onClick={() => setActiveTab("Instructions")}>
+            Instructions
+          </button>
+          <button onClick={() => setActiveTab("Ingredients")}>
+            Ingredients
+          </button>
+          {activetab === "Instructions" && (
+            <>
+              <h3 dangerouslySetInnerHTML={{ __html: details.summary }}></h3>
+              <h3
+                dangerouslySetInnerHTML={{ __html: details.instructions }}
+              ></h3>
+            </>
+          )}
+          {activetab === "Ingredients" && (
+            <ul>
+              {details.extendedIngredients.map((ingredients) => {
+                return <li>{ingredients.original}</li>;
+              })}
+            </ul>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
